@@ -1,0 +1,51 @@
+{
+    "[BoardName]": {
+        "[specificFieldName]": {
+            "commonFieldName": "[commonFieldName]",
+            "domainMapping": {
+                "[commonValue1]": "[specificValue1]",
+                "[commonValueN]": "[specificValueN]"
+            }
+        },
+        "[specificCaptchaFieldName]": {
+            "commonFieldName": "captcha"
+        }
+    },
+
+    "to-rent.ru": {
+        "type": {
+            "commonFieldName": "actionType",
+            "domainMapping": {
+                "Предложение аренды": "4"
+            }
+        },
+        "town_id": {
+            "commonFieldName": "city",
+            "domainMapping": {
+                "Москва": "1"
+            }
+        },
+        "station_id": {
+            "commonFieldName": "locationGroup.metro",
+            "domainMapping":"GET_HTML"
+        },
+        "check_code": {
+            "commonFieldName": "captcha"
+        }
+    },
+
+    "www.kvartirant.ru": {
+        "code": {
+            "commonFieldName": "@todo"
+        },
+        "obj_place": {
+            "commonFieldName": "@todo"
+        },
+        "obj_place2": {
+            "commonFieldName": "@todo"
+        },
+        "[specificCaptchaFieldName]": {
+            "commonFieldName": "captcha"
+        }
+    }
+}

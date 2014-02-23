@@ -1,51 +1,50 @@
 <?php
 /**
- * @file php-form-builder / antigate.php
+ * @file php-form-builder / antiGate.php
  * Created: 17.02.14 / 16:51
  */
 /**
- * $filename - file path to captcha. MUST be local file. URLs not working
- * $apiKey   - account's API key
- * $rTimeout - delay between captcha status checks
- * $mTimeout - captcha recognition timeout
- * $is_verbose - false(commenting OFF),  true(commenting ON)
+ * @param $filename - file path to captcha. MUST be local file. URLs not working
+ * @param $apiKey   - account's API key
+ * @param $is_verbose - false(commenting OFF),  true(commenting ON)
+ * @param $domain
+ * @param $rTimeout - delay between captcha status checks
+ * @param $mTimeout - captcha recognition timeout
  *
  * additional custom parameters for each captcha:
- * $is_phrase - 0 OR 1 - captcha has 2 or more words
- * $is_sense - 0 OR 1 - captcha is case sensetive
- * $is_numeric -  0 OR 1 - captcha has digits only
- * $min_len    -  0 is no limit, an integer sets minimum text length
- * $max_len    -  0 is no limit, an integer sets maximum text length
- * $is_russian -  0 OR 1 - with flag = 1 captcha will be given to a Russian-speaking worker
+ * @param $is_phrase - 0 OR 1 - captcha has 2 or more words
+ * @param $is_sense - 0 OR 1 - captcha is case sensitive
+ * @param $is_numeric -  0 OR 1 - captcha has digits only
+ * @param $min_len    -  0 is no limit, an integer sets minimum text length
+ * @param $max_len    -  0 is no limit, an integer sets maximum text length
+ * @param $is_russian -  0 OR 1 - with flag = 1 captcha will be given to a Russian-speaking worker
  *
  * usage examples:
  * $text=recognize("/path/to/file/captcha.jpg","YOUR_KEY_HERE",true, "antigate.com");
  * $text=recognize("/path/to/file/captcha.jpg","YOUR_KEY_HERE",false, "antigate.com");
  * $text=recognize("/path/to/file/captcha.jpg","YOUR_KEY_HERE",false, "antigate.com",1,0,0,5);
 
+ * @return bool|string - captcha or error status
  */
-
-
-function recognize(
-    $filename,
-    $apiKey,
-    $is_verbose = true,
-    $domain = "antigate.com",
-    $rTimeout = 5,
-    $mTimeout = 120,
-    $is_phrase = 0,
-    $is_sense = 0,
-    $is_numeric = 0,
-    $min_len = 0,
-    $max_len = 0,
-    $is_russian = 0
+function antigateRecognize( $filename,
+                            $apiKey = '69c79b7ced79a79eadc3e0801782e76b', // todo add our antigate api key
+                            $is_verbose = true,
+                            $domain = "antigate.com",
+                            $rTimeout = 5,
+                            $mTimeout = 120,
+                            $is_phrase = 0,
+                            $is_sense = 0,
+                            $is_numeric = 0,
+                            $min_len = 0,
+                            $max_len = 0,
+                            $is_russian = 0
 )
 {
     if (!file_exists($filename)) {
         if ($is_verbose) echo "file $filename not found\n";
         return false;
     }
-    $postdata = array(
+    $postData = array(
         'method' => 'post',
         'key' => $apiKey,
         'file' => '@' . $filename,
@@ -61,7 +60,7 @@ function recognize(
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     curl_setopt($ch, CURLOPT_TIMEOUT, 60);
     curl_setopt($ch, CURLOPT_POST, 1);
-    curl_setopt($ch, CURLOPT_POSTFIELDS, $postdata);
+    curl_setopt($ch, CURLOPT_POSTFIELDS, $postData);
     $result = curl_exec($ch);
     if (curl_errno($ch)) {
         if ($is_verbose) echo "CURL returned error: " . curl_error($ch) . "\n";

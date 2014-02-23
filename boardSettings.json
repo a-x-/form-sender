@@ -1,0 +1,33 @@
+{
+    "default": {
+        "postData": {
+        },
+        "formUri": "",
+        "siteEncoding": "",
+        "formAction": "",
+        "captchaGroup": {
+            "ext": "",
+            "uri": "",
+            "isSense": false,
+            "isNumeric": false,
+            "isPhrase": false,
+            "isRussian": false
+        }
+    },
+
+    "to-rent.ru": {
+        "formUri": "http://to-rent.ru/new_post.php",
+        "siteEncoding": "windows-1251",
+        "formAction": "http://to-rent.ru/new_post.php",
+        "postData": {
+        },
+        "captchaGroup": {
+            "ext": "gif",
+            "uri": "http://to-rent.ru/secpic.php",
+            "isSense": false,
+            "isNumeric": false,
+            "isPhrase": false,
+            "isRussian": false
+        }
+    }
+}
