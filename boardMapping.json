@@ -23,8 +23,7 @@
             "commonFieldName": "locationGroup.city"
         },
         "station_id": {
-            "commonFieldName": "locationGroup.metro",
-            "domainMapping":"GET_HTML"
+            "commonFieldName": "locationGroup.metro"
         }
     },
 

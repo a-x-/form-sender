@@ -71,6 +71,8 @@ function evalDeepArrayPath ($path, $root){
     $dirs = preg_split('/\./',$path);
     for($i=0,$l = count($dirs);$i<$l;++$i){
         $dir = $dirs[$i];
-        $root = $root[$dir];
+        if(isset($root[$dir])) $root = $root[$dir];
+        else return false;
     }
+    return $root;
 }
