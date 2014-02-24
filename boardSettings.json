@@ -21,6 +21,9 @@
         "formAction": "http://to-rent.ru/new_post.php",
         "postData": {
         },
+        "dynamicPostDataMapping": {
+            "captchaValue":"check_code"
+        },
         "captchaGroup": {
             "ext": "gif",
             "uri": "http://to-rent.ru/secpic.php",

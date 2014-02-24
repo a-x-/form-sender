@@ -73,6 +73,8 @@
         },
         "captchaValue":"[different]",
         "actionType": "Предложение аренды",
-        "city": "Москва"
+        "locationGroup": {
+            "city": "Москва"
+        }
     }
 }

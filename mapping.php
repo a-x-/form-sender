@@ -32,13 +32,18 @@ function translateFieldSet($roomPresetName, $boardMappingName, $additionDataAsCo
         elseif (isset($commonRoomPresent[$commonFieldName])) $commonFieldValue = $commonRoomPresent[$commonFieldName];
 
         $specificFieldValue = $domainMapping[$commonFieldValue];
-        $noBaseMappingValue = mappingDecide($specificFieldValue, $additionBoardMapping, $commonFieldValue, function($e){
+        $noBaseMappingValue = mappingDecide($specificFieldValue, $additionBoardMapping, null, function ($e) {
             // todo write error handler
         });
-        $outputFields[$boardSpecificFieldKey] = mappingDecide($commonFieldValue, $domainMapping, $noBaseMappingValue, function($e){
-            // todo write error handler
-        });
+        if ($noBaseMappingValue !== null) {
+            $outputFields[$boardSpecificFieldKey] = $noBaseMappingValue;
+        } else {
+            $outputFields[$boardSpecificFieldKey] = mappingDecide($commonFieldValue, $domainMapping, $commonFieldValue, function ($e) {
+                // todo write error handler
+            });
+        }
     }
+
     return $outputFields;
 }
 
@@ -58,5 +63,14 @@ function mappingDecide($commonFieldValue, $domainMapping, $noMappingValue, $erro
         $e = [];
         $errorFunction($e);
         return false;
+    }
+}
+
+
+function evalDeepArrayPath ($path, $root){
+    $dirs = preg_split('/\./',$path);
+    for($i=0,$l = count($dirs);$i<$l;++$i){
+        $dir = $dirs[$i];
+        $root = $root[$dir];
     }
 }

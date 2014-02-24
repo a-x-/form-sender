@@ -121,12 +121,24 @@ function compileCascadeSettings ()
     return $settings;
 }
 
-function compilePostData ($settings, $postData)
+/**
+ * @param $settings
+ * @param $postData
+ * @param $boardDynamicData ['commonKey'=>'specifiedValue']
+ * @return array
+ */
+function compilePostData ($settings, $postData, $boardDynamicData)
 {
     $settings['postData'] = array_merge($postData, $settings['postData']);
     $settings['postData'] = array_merge($postData, $_GET);
+    $boardSettings = json_decode_file('boardSettings.json');
 
-    return $postData;
+    foreach($boardDynamicData as $commonKey => $specifiedValue) {
+        $specifiedKey = $boardSettings['dynamicPostDataMapping'][$commonKey];
+        $settings['postData'][$specifiedKey] = $specifiedValue;
+    }
+
+    return $settings['postData'];
 }
 
 /**

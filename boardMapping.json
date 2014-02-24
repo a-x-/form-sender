@@ -16,21 +16,15 @@
         "type": {
             "commonFieldName": "actionType",
             "domainMapping": {
-                "Предложение аренды": "4"
+                "Предложение аренды": "Сдам комнату"
             }
         },
         "town_id": {
-            "commonFieldName": "city",
-            "domainMapping": {
-                "Москва": "1"
-            }
+            "commonFieldName": "locationGroup.city"
         },
         "station_id": {
             "commonFieldName": "locationGroup.metro",
             "domainMapping":"GET_HTML"
-        },
-        "check_code": {
-            "commonFieldName": "captcha"
         }
     },
 

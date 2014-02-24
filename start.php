@@ -24,8 +24,8 @@ echo "<br>Captcha:$captchaValue img:<img src='$captchaPath'>";
 $postData = translateFieldSet(
     $roomPresetName,
     $boardMappingName,
-    $additionSettings = ['captchaValue'=>$captchaValue],
+    $additionSettings = [],
     $additionMappingAsSpecifiedKey
 );
-$postData = compilePostData($settings, $postData);
+$postData = compilePostData($settings, $postData, ['captchaValue'=>$captchaValue]);
 sendForm($settings);
