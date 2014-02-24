@@ -19,13 +19,14 @@ $tmpDownloadResult = downloadFormAndCaptcha($settings);
 $captchaPath = $tmpDownloadResult['captchaPath'];
 $additionMappingAsSpecifiedKey = $tmpDownloadResult['additionMappingAsSpecifiedKey'];
 
-$captchaValue = antigateRecognize($captchaPath); // todo config the antigate
-echo "<br>Captcha:$captchaValue img:<img src='$captchaPath'>";
+//$captchaValue = antigateRecognize($captchaPath);
+$captchaValue = 'TMP CAPTCHA VALUE';
+//echo "<br>Captcha:$captchaValue img:<img src='$captchaPath'>";
 $postData = translateFieldSet(
     $roomPresetName,
     $boardMappingName,
     $additionSettings = [],
     $additionMappingAsSpecifiedKey
 );
-$postData = compilePostData($settings, $postData, ['captchaValue'=>$captchaValue]);
+$setting['postData'] = compilePostData($settings, $postData, ['captchaValue'=>$captchaValue]);
 sendForm($settings);

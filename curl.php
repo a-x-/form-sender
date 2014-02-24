@@ -129,16 +129,16 @@ function compileCascadeSettings ()
  */
 function compilePostData ($settings, $postData, $boardDynamicData)
 {
-    $settings['postData'] = array_merge($postData, $settings['postData']);
-    $settings['postData'] = array_merge($postData, $_GET);
+    $postData = array_merge($postData, $settings['postData']);
+    $postData = array_merge($postData, $_GET);
     $boardSettings = json_decode_file('boardSettings.json');
 
     foreach($boardDynamicData as $commonKey => $specifiedValue) {
         $specifiedKey = $boardSettings['dynamicPostDataMapping'][$commonKey];
-        $settings['postData'][$specifiedKey] = $specifiedValue;
+        $postData[$specifiedKey] = $specifiedValue;
     }
 
-    return $settings['postData'];
+    return $postData;
 }
 
 /**
@@ -161,7 +161,10 @@ function downloadFormAndCaptcha($settings)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $result = curl_exec($ch);
 
-    $domObj = phpQuery::newDocument($result);
+    preg_match_all('!<select.*?>.*?</select\s*>!ius', $result, $selectHtmlCollection);
+    $selectsOnlyResult = join('\n\n', $selectHtmlCollection);
+    echo 'SELECT collection size: '.count($selectHtmlCollection);
+    $domObj = phpQuery::newDocument($selectsOnlyResult);
     $selects = $domObj['select'];
     $additionMappingAsSpecifiedKey = [];
 

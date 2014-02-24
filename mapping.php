@@ -21,17 +21,20 @@ function translateFieldSet($roomPresetName, $boardMappingName, $additionDataAsCo
     $commonFieldValue = null;
     $boardSpecificFields = json_decode_file("boardMapping.json")[$boardMappingName];
     foreach ($boardSpecificFields as $boardSpecificFieldKey => $tmp) {
-        $commonFieldName = $tmp['commonFieldName']; // Ключ общего поля
+        $commonFieldKey = $tmp['commonFieldKey']; // Ключ общего поля
         $domainMapping = $tmp['domainMapping']; // {"Значение общего поля": "Значение поля доски"}
         $additionBoardMapping = (isset($additionMappingAsSpecifiedKey[$boardSpecificFieldKey])) ?
             $additionMappingAsSpecifiedKey[$boardSpecificFieldKey] : null;
         // {"Значение общего поля": "Значение поля доски"}
         // Сграблено из формы
 
-        if (isset($roomPreset[$commonFieldName])) $commonFieldValue = $roomPreset[$commonFieldName];
-        elseif (isset($commonRoomPresent[$commonFieldName])) $commonFieldValue = $commonRoomPresent[$commonFieldName];
+        if ($commonFieldValue = evalDeepArrayPath($commonFieldKey, $roomPreset)) {
+        } elseif ($commonFieldValue = evalDeepArrayPath($commonFieldKey, $commonRoomPresent)) {
+        }
 
-        $specificFieldValue = $domainMapping[$commonFieldValue];
+        $specificFieldValue = ($domainMapping && isset($domainMapping[$commonFieldValue])) ?
+            $domainMapping[$commonFieldValue] : $specificFieldValue = $commonFieldValue;
+
         $noBaseMappingValue = mappingDecide($specificFieldValue, $additionBoardMapping, null, function ($e) {
             // todo write error handler
         });
@@ -67,11 +70,12 @@ function mappingDecide($commonFieldValue, $domainMapping, $noMappingValue, $erro
 }
 
 
-function evalDeepArrayPath ($path, $root){
-    $dirs = preg_split('/\./',$path);
-    for($i=0,$l = count($dirs);$i<$l;++$i){
+function evalDeepArrayPath($path, $root)
+{
+    $dirs = preg_split('/\./', $path);
+    for ($i = 0, $l = count($dirs); $i < $l; ++$i) {
         $dir = $dirs[$i];
-        if(isset($root[$dir])) $root = $root[$dir];
+        if (isset($root[$dir])) $root = $root[$dir];
         else return false;
     }
     return $root;

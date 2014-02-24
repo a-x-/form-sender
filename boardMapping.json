@@ -1,44 +1,44 @@
 {
     "[BoardName]": {
         "[specificFieldName]": {
-            "commonFieldName": "[commonFieldName]",
+            "commonFieldKey": "[commonFieldKey]",
             "domainMapping": {
                 "[commonValue1]": "[specificValue1]",
                 "[commonValueN]": "[specificValueN]"
             }
         },
         "[specificCaptchaFieldName]": {
-            "commonFieldName": "captcha"
+            "commonFieldKey": "captcha"
         }
     },
 
     "to-rent.ru": {
         "type": {
-            "commonFieldName": "actionType",
+            "commonFieldKey": "actionType",
             "domainMapping": {
                 "Предложение аренды": "Сдам комнату"
             }
         },
         "town_id": {
-            "commonFieldName": "locationGroup.city"
+            "commonFieldKey": "locationGroup.city"
         },
         "station_id": {
-            "commonFieldName": "locationGroup.metro"
+            "commonFieldKey": "locationGroup.metro"
         }
     },
 
     "www.kvartirant.ru": {
         "code": {
-            "commonFieldName": "@todo"
+            "commonFieldKey": "@todo"
         },
         "obj_place": {
-            "commonFieldName": "@todo"
+            "commonFieldKey": "@todo"
         },
         "obj_place2": {
-            "commonFieldName": "@todo"
+            "commonFieldKey": "@todo"
         },
         "[specificCaptchaFieldName]": {
-            "commonFieldName": "captcha"
+            "commonFieldKey": "captcha"
         }
     }
 }
