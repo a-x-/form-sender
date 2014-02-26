@@ -9,8 +9,9 @@
  * @param $path
  * @return mixed
  */
-function json_decode_file($path) {
-    return json_decode(file_get_contents($path),true);
+function json_decode_file($path)
+{
+    return json_decode(file_get_contents($path), true);
 }
 
 /**
@@ -37,6 +38,42 @@ function evalDeepArrayPath($path, $root)
  * @param $value string
  * @return string
  */
-function specializeMask ($mask, $placeholder, $value) {
-    return str_replace('%%'.$placeholder.'%%',$value,$mask);
+function specializeMask($mask, $placeholder, $value)
+{
+    return str_replace('%%' . $placeholder . '%%', $value, $mask);
 }
+
+/**
+ * Return "String of some text" from some "sTrIng OF some TeXT".
+ * First letter of none unicode text turn to uppercase,
+ * another letters turn to lowercase
+ * @param $string
+ * @return string
+ */
+function uppercaseFirstLetter($string)
+{
+    return ucfirst(strtolower($string));
+}
+
+/**
+ * Return "Строку некоторого текста", from some "сТрокУ НЕКОТОРОГО текста"
+ * First letter of unicode text turn to uppercase, another letters turn to lowercase
+ * @param $string
+ * @return string
+ */
+function mb_uppercaseFirstLetter($string)
+{
+    list($first_str) = explode(' ', trim($string));
+    return mb_convert_case($first_str, MB_CASE_TITLE, "utf-8") . mb_strtolower(strstr($string, ' '), "utf-8");
+}
+
+//function uppercaseFirstLetterRecursive($arrayOfString)
+//{
+//    foreach($arrayOfString as &$item) {
+//        if(is_array($item))
+//            $item = uppercaseFirstLetterRecursive($item);
+//        else
+//            $item = mb_uppercaseFirstLetter($item);
+//    }
+//    return $arrayOfString;
+//}

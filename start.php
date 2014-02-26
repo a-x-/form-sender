@@ -7,7 +7,6 @@ require_once('lib.php');
 require_once('curl.php');
 require_once('antiGate.php');
 require_once('mapping.php');
-
 $boardsSettings = json_decode_file('boardSettings.json');
 
 $roomPresetName = $_GET['roomPresetName'];

@@ -125,7 +125,7 @@ function downloadFormAndCaptcha($settings)
         $additionMappingAsSpecifiedKey[$specificFieldKey] = [];
         foreach ($select->childNodes as $child) {
             $specificFieldValue = $child->attributes->getNamedItem('value')->value;
-            $commonFieldValue = $child->textContent;
+            $commonFieldValue = mb_uppercaseFirstLetter($child->textContent);
             echo "$specificFieldValue; $commonFieldValue; <br >";
             $additionMappingAsSpecifiedKey[$specificFieldKey][$commonFieldValue] = $specificFieldValue;
         }
