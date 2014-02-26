@@ -21,16 +21,16 @@
             "waterSource": "",
             "heatingSystem": "",
             "ceilingHeight": "",
-            "gas": null,
-            "lift": null,
-            "GarbageChute": null,
-            "security": null
+            "gas": true,
+            "lift": true,
+            "GarbageChute": "",
+            "security": ""
         }
     },
     "Krulatskaya": {
         "apartment": {
-            "livingSpace": null,
-            "kitchenSpace": null,
+            "livingSpace": "na",
+            "kitchenSpace": "na",
             "floor": 11
         },
         "loc": {
@@ -43,12 +43,12 @@
         },
         "building": {
             "floorsSummary": 17,
-            "buildingYear": 0,
-            "series": "",
-            "wallsMaterial": "",
-            "waterSource": "",
-            "heatingSystem": "",
-            "ceilingHeight": "",
+            "buildingYear": "na",
+            "series": "na",
+            "wallsMaterial": "na",
+            "waterSource": "na",
+            "heatingSystem": "na",
+            "ceilingHeight": "na",
             "gas": true,
             "lift": true,
             "GarbageChute": true,
@@ -57,12 +57,12 @@
     },
     "common": {
         "contact": {
-            "skype": "",
-            "icq": "",
+            "skype": "na",
+            "icq": "na",
             "siteUri": "http://www.vseh-zaselim.ru/"
         },
         "apartment": {
-            "tv": true,
+            "tv": false,
             "furniture": true,
             "phone": false,
             "internet": true,
@@ -71,7 +71,7 @@
             "balcony": true
         },
         "tenants": {
-            "sex": null,
+            "sex": "-1",
             "children": false,
             "pets": false
         },

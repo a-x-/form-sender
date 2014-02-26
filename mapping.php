@@ -116,6 +116,8 @@ function getSpecVal($valueMapsAdd, $room, $comKey, $domainMap)
         // todo write error handler ( common key not found )
     }
 
+    $currComValue = returnPrintValue($currComValue);
+
     //
     // Find specific value for current room and current board
     $specVal = // find 1th approximation of specific value
@@ -124,4 +126,13 @@ function getSpecVal($valueMapsAdd, $room, $comKey, $domainMap)
     $specVal = // find specific value by addition map if possible
         ($domainMapAdd && isset($domainMapAdd[$specVal])) ? $domainMapAdd[$specVal] : $specVal;
     return $specVal;
+}
+
+function returnPrintValue ($value)
+{
+    if($value === true) return "1";
+    if($value === false) return "0";
+    if($value === null) return "-1";
+    if($value == "na") return "";
+    return $value;
 }
