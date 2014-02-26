@@ -25,13 +25,24 @@ function translateFieldSet($roomName, $boardMappingName, $specificFieldsMapsAdd)
         // Iterate over addition map too
         $valueMapsAdd = (isset($specificFieldsMapsAdd[$specificFieldKey])) ? $specificFieldsMapsAdd[$specificFieldKey] : null;
 
-        $mask = getMaskFromMapJsonDescription($valueMaps); // Get mask from JSON file description of map
-
-        $specValComplex = getSpecificComplexFieldValue($valueMaps, $valueMapsAdd, $room, $comRoom, $mask);
+        if (isset($valueMaps['@'])) {
+            $partMask = $valueMaps['@'];
+            unset($valueMaps['@']);
+            $specVal = '';
+            foreach ($valueMaps as $comKey => $domainMap) {// будет выполнена 1 раз, т.к. указывается только 1 comKey
+                $specVal = getSpecVal ($valueMapsAdd, $comRoom, $room, $comKey, $domainMap);
+                break;
+            }
+            preg_match('!'.$partMask.'!', $specVal, $parts);
+            $specValResult = $parts[1];
+        } else {
+            $complexMask = getMaskFromMapJsonDescription($valueMaps); // Get complexMask from JSON file description of map
+            $specValResult = getSpecificComplexFieldValue($valueMaps, $valueMapsAdd, $room, $comRoom, $complexMask);
+        }
 
         //
         // Add found specific complex value into output fields collection
-        $outputFields[$specificFieldKey] = $specValComplex;
+        $outputFields[$specificFieldKey] = $specValResult;
     }
 
     return $outputFields;
@@ -53,7 +64,7 @@ function getMaskFromMapJsonDescription(&$valueMaps)
             $mask = '%%' . $comKey . '%%';
     } else {
         // todo add error handler ( одному specific полю дано в соотв-е несколько common полей, но mask не задана )
-        die ("одному specific полю дано в соотв-е несколько common полей, но mask не задана ");
+        die ("Одному specific полю дано в соотв-е несколько common полей, но mask не задана");
     }
     return $mask;
 }
@@ -65,29 +76,42 @@ function getSpecificComplexFieldValue($valueMaps, $valueMapsAdd, $room, $comRoom
     // Rem: map may have one common field
     $specValComplex = $mask; // sought-for (искомое) value
     foreach ($valueMaps as $comKey => $domainMap) {
-        $domainMapAdd = ($valueMapsAdd && isset($valueMapsAdd[$comKey])) ? $valueMapsAdd[$comKey] : null;
-        // Rem: $domainMap = {{"Значение общего поля": "Значение поля доски"},,,}
-
-        //
-        // Find common value for current room
-        if ($currComValue = evalDeepArrayPath($comKey, $room)) {
-        } elseif ($currComValue = evalDeepArrayPath($comKey, $comRoom)) {
-        } else {
-            // todo write error handler ( common key not found )
-        }
-
-        //
-        // Find specific value for current room and current board
-        $specVal = // find 1th approximation of specific value
-            ($domainMap && isset($domainMap[$currComValue])) ? $domainMap[$currComValue] : $currComValue;
-
-        $specVal = // find specific value by addition map if possible
-            ($domainMapAdd && isset($domainMapAdd[$specVal])) ? $domainMapAdd[$specVal] : $specVal;
-
+        $specVal = getSpecVal ($valueMapsAdd, $comRoom, $room, $comKey, $domainMap);
         //
         // Add found specific value into mask
         $specValComplex = specializeMask($specValComplex, $comKey, $specVal);
     }
 
     return $specValComplex;
+}
+
+/**
+ * Get specific field value
+ * @param $valueMapsAdd
+ * @param $comRoom
+ * @param $room
+ * @param $comKey
+ * @param $domainMap
+ * @return bool|mixed
+ */
+function getSpecVal ($valueMapsAdd, $comRoom, $room, $comKey, $domainMap){
+    $domainMapAdd = ($valueMapsAdd && isset($valueMapsAdd[$comKey])) ? $valueMapsAdd[$comKey] : null;
+    // Rem: $domainMap = {{"Значение общего поля": "Значение поля доски"},,,}
+
+    //
+    // Find common value for current room
+    if ($currComValue = evalDeepArrayPath($comKey, $room)) {
+    } elseif ($currComValue = evalDeepArrayPath($comKey, $comRoom)) {
+    } else {
+        // todo write error handler ( common key not found )
+    }
+
+    //
+    // Find specific value for current room and current board
+    $specVal = // find 1th approximation of specific value
+        ($domainMap && isset($domainMap[$currComValue])) ? $domainMap[$currComValue] : $currComValue;
+
+    $specVal = // find specific value by addition map if possible
+        ($domainMapAdd && isset($domainMapAdd[$specVal])) ? $domainMapAdd[$specVal] : $specVal;
+    return $specVal;
 }

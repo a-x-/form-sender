@@ -27,5 +27,5 @@ $postData = translateFieldSet(
     $boardMappingName,
     $additionMappingAsSpecifiedKey
 );
-$setting['postData'] = compilePostData($settings, $postData, ['captchaValue'=>$captchaValue]);
+$settings['postData'] = compilePostData($settings, $postData, ['captchaValue'=>$captchaValue]);
 sendForm($settings);
