@@ -21,8 +21,8 @@ function translateFieldSet($roomPresetName, $boardMappingName, $additionDataAsCo
     $commonFieldValue = null;
     $boardSpecificFields = json_decode_file("boardMapping.json")[$boardMappingName];
     foreach ($boardSpecificFields as $boardSpecificFieldKey => $tmp) {
-        $commonFieldKey = $tmp['commonFieldKey']; // Ключ общего поля
-        $domainMapping = $tmp['domainMapping']; // {"Значение общего поля": "Значение поля доски"}
+        $commonFieldKey = $tmp['#']; // Ключ общего поля
+        $domainMapping = $tmp['->']; // {"Значение общего поля": "Значение поля доски"}
         $additionBoardMapping = (isset($additionMappingAsSpecifiedKey[$boardSpecificFieldKey])) ?
             $additionMappingAsSpecifiedKey[$boardSpecificFieldKey] : null;
         // {"Значение общего поля": "Значение поля доски"}
@@ -32,36 +32,41 @@ function translateFieldSet($roomPresetName, $boardMappingName, $additionDataAsCo
         } elseif ($commonFieldValue = evalDeepArrayPath($commonFieldKey, $commonRoomPresent)) {
         }
 
-        $specificFieldValue = ($domainMapping && isset($domainMapping[$commonFieldValue])) ?
-            $domainMapping[$commonFieldValue] : $specificFieldValue = $commonFieldValue;
+        $specificFieldValue =
+            ($domainMapping && isset($domainMapping[$commonFieldValue])) ?
+                $domainMapping[$commonFieldValue] : $specificFieldValue = $commonFieldValue;
 
-        $noBaseMappingValue = mappingDecide($specificFieldValue, $additionBoardMapping, null, function ($e) {
+        $commonMappingValue = mappingValueDecide($commonFieldValue, $domainMapping, $commonFieldValue, function ($e) {
             // todo write error handler
         });
-        if ($noBaseMappingValue !== null) {
-            $outputFields[$boardSpecificFieldKey] = $noBaseMappingValue;
-        } else {
-            $outputFields[$boardSpecificFieldKey] = mappingDecide($commonFieldValue, $domainMapping, $commonFieldValue, function ($e) {
-                // todo write error handler
-            });
-        }
+        $additionMappingValue = mappingValueDecide($specificFieldValue, $additionBoardMapping, null, function ($e) {
+            // todo write error handler
+        });
+        $outputFields[$boardSpecificFieldKey]
+            = ($additionMappingValue !== null) ? $additionMappingValue : $commonMappingValue;
     }
 
     return $outputFields;
 }
 
 
-function mappingDecide($commonFieldValue, $domainMapping, $noMappingValue, $errorFunction)
+function mappingValueDecide($commonFieldValue, $domainMapping, $noMappingValue, $errorFunction)
 {
-    if ($commonFieldValue)
-        if (isset($domainMapping[$commonFieldValue])) { // Если в данных комнаты или общих данных найдено такое поле    }
-            return $domainMapping[$commonFieldValue];
-        } elseif (false) { // Если  в данных комнаты или общих данных наёдено поле совпадающее по маске
-            return null; // todo add mapping
+    if ($commonFieldValue) {
+        if (isset($domainMapping[$commonFieldValue])) {
+            if ($domainMapping[$commonFieldValue]['#']) { // Если в данных комнаты или общих данных найдено такое поле    }
+                return $domainMapping[$commonFieldValue];
+            } else { // Если  в данных комнаты или общих данных наёдено поле совпадающее по маске
+                $mask = $domainMapping[$commonFieldValue]['*'];
+                foreach ($domainMapping[$commonFieldValue] as $placeholder => $commonFieldKey) {
+//                    $mask = str_replace("%$placeholder%",)
+                }
+//                return null; // todo add regexp mapping
+            }
         } else { // маппинг отсутствует
             return $noMappingValue;
         }
-    else { // Если поле не имеет совпадений ==> Оишбка
+    } else { // Если поле не имеет совпадений ==> Оишбка
         // todo добавить логгирование ошибок
         $e = [];
         $errorFunction($e);

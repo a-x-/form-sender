@@ -1,54 +1,58 @@
 {
     "defaultRoomName": {
-        "floor":0,
-        "floorsSummary":0,
-        "livingSpace":0,
-        "kitchenSpace":0,
-        "locationGroup": {
-            "metro":"",
-            "street":"",
-            "house":0,
-            "building":0,
-            "timeForMetro":0,
-            "toMetroVia":0
+        "apartment": {
+            "floor": 0,
+            "livingSpace": 0,
+            "kitchenSpace": 0
         },
-        "buildingFeaturesGroup": {
-            "buildingYear":0,
-            "series":"",
-            "wallsMaterial":"",
-            "waterSource":"",
-            "heatingSystem":"",
-            "ceilingHeight":"",
-            "gas":null,
-            "lift":null,
-            "GarbageChute":null,
-            "security":null
+        "loc": {
+            "metro": "",
+            "street": "",
+            "house": 0,
+            "building": 0,
+            "timeForMetro": 0,
+            "toMetroVia": 0
+        },
+        "building": {
+            "floorsSummary": 0,
+            "buildingYear": 0,
+            "series": "",
+            "wallsMaterial": "",
+            "waterSource": "",
+            "heatingSystem": "",
+            "ceilingHeight": "",
+            "gas": null,
+            "lift": null,
+            "GarbageChute": null,
+            "security": null
         }
     },
     "Krulatskaya": {
-        "floor":11,
-        "floorsSummary":17,
-        "livingSpace":null,
-        "kitchenSpace":null,
-        "locationGroup": {
-            "metro":"Крылатское",
-            "street":"Рублевская шоссе",
-            "house":38,
-            "building":2,
-            "timeForMetro":7,
-            "toMetroVia":"Пешком"
+        "apartment": {
+            "livingSpace": null,
+            "kitchenSpace": null,
+            "floor": 11
         },
-        "buildingFeaturesGroup": {
-            "buildingYear":0,
-            "series":"",
-            "wallsMaterial":"",
-            "waterSource":"",
-            "heatingSystem":"",
-            "ceilingHeight":"",
-            "gas":true,
-            "lift":true,
-            "GarbageChute":true,
-            "security":true
+        "loc": {
+            "metro": "Крылатское",
+            "street": "Рублевская шоссе",
+            "house": 38,
+            "building": 2,
+            "timeForMetro": 7,
+            "toMetroVia": "Пешком"
+        },
+        "building": {
+            "floorsSummary": 17,
+            "buildingYear": 0,
+            "series": "",
+            "wallsMaterial": "",
+            "waterSource": "",
+            "heatingSystem": "",
+            "ceilingHeight": "",
+            "gas": true,
+            "lift": true,
+            "GarbageChute": true,
+            "security": true
         }
     },
     "common": {
@@ -57,23 +61,23 @@
             "icq": "",
             "siteUri": "http://www.vseh-zaselim.ru/"
         },
-        "apartmentFeaturesGroup": {
-            "tv":true,
-            "furniture":true,
-            "phone":false,
-            "internet":true,
-            "washingMachine":true,
-            "refrigerator":true,
-            "balcony":true
+        "apartment": {
+            "tv": true,
+            "furniture": true,
+            "phone": false,
+            "internet": true,
+            "washingMachine": true,
+            "refrigerator": true,
+            "balcony": true
         },
-        "tenantsWishingGroup": {
+        "tenants": {
             "sex": null,
             "children": false,
             "pets": false
         },
-        "captchaValue":"[different]",
         "actionType": "Предложение аренды",
-        "locationGroup": {
+        "leasesTerm":"1 месяц",
+        "loc": {
             "city": "Москва"
         }
     }

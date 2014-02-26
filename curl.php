@@ -161,10 +161,7 @@ function downloadFormAndCaptcha($settings)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $result = curl_exec($ch);
 
-    preg_match_all('!<select.*?>.*?</select\s*>!ius', $result, $selectHtmlCollection);
-    $selectsOnlyResult = join('\n\n', $selectHtmlCollection);
-    echo 'SELECT collection size: '.count($selectHtmlCollection);
-    $domObj = phpQuery::newDocument($selectsOnlyResult);
+    $domObj = phpQuery::newDocument($result);
     $selects = $domObj['select'];
     $additionMappingAsSpecifiedKey = [];
 
@@ -191,9 +188,9 @@ function downloadFormAndCaptcha($settings)
     curl_setopt($ch, CURLOPT_COOKIEFILE, file($settings['cookiesFile']));
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 //    curl_setopt($ch, CURLOPT_HEADER, 1);
-    $res = curl_exec($ch);
+    $captchaResult = curl_exec($ch);
     $fp = fopen($captchaPath = 'captcha.'.$settings['captchaGroup']['ext'], "wb");
-    fwrite($fp, $res);
+    fwrite($fp, $captchaResult);
     fclose($fp);
 //    $replace = str_replace("sign.aspx", "testes.php", $result);
     echo iconv($settings['siteEncoding'], "utf-8", $result); //

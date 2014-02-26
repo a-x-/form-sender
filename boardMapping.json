@@ -1,44 +1,64 @@
 {
     "[BoardName]": {
-        "[specificFieldName]": {
-            "commonFieldKey": "[commonFieldKey]",
-            "domainMapping": {
+        "[specificFieldName1]": {
+            "*": "[mask]",
+            "commonFieldKey1": {
+                "[commonValue1]": "[specificValue1]",
+                "[commonValueN]": "[specificValueN]"
+            },
+            "commonFieldKey2": {
                 "[commonValue1]": "[specificValue1]",
                 "[commonValueN]": "[specificValueN]"
             }
-        },
-        "[specificCaptchaFieldName]": {
-            "commonFieldKey": "captcha"
         }
     },
 
     "to-rent.ru": {
-        "type": {
-            "commonFieldKey": "actionType",
-            "domainMapping": {
+        "type": { "#": "actionType",
+            "->": {
                 "Предложение аренды": "Сдам комнату"
             }
         },
-        "town_id": {
-            "commonFieldKey": "locationGroup.city"
+        "station_id": { "#": "loc.metro",
+            "->": {
+                "Крылатское": "69"
+            }
         },
-        "station_id": {
-            "commonFieldKey": "locationGroup.metro"
-        }
+        "town_id": { "#": "loc.city" },
+        "street": { "#": "loc.street" },
+        "house": { "#": "loc.house" },
+        "time_to_station": { "#":"loc.timeForMetro" },
+        "time_to_station_type":{ "#":"loc.toMetroVia" },
+        "floor":{ "#":"apartment.floor" },
+        "floorn":{ "#":"building.floorsSummary" },
+        "skitchen":{ "#":"building.kitchenSpace" },
+        "sall":{ "#":"livingSpace" },
+        "phone":{"#":"apartment.phone"},
+        "tv":{"#":"apartment.tv"},
+        "inet":{"#":"apartment.internet"},
+        "wm":{"#":"apartment.washingMachine"},
+        "rfgr":{"#":"apartment.refrigerator"},
+        "balkon":{"#":"apartment.balcony"},
+        "gender":{"#":"tenants.sex"},
+        "kids":{"#":"tenants.children"},
+        "pets":{"#":"tenants.pets"},
+        "lease_term":{"#":"leaseTerm"},
+        "":{"#":"tenants.sex"},
+
     },
 
     "www.kvartirant.ru": {
         "code": {
-            "commonFieldKey": "@todo"
+            "#": "@todo"
         },
         "obj_place": {
-            "commonFieldKey": "@todo"
+            "#": "@todo"
         },
         "obj_place2": {
-            "commonFieldKey": "@todo"
+            "#": "@todo"
         },
         "[specificCaptchaFieldName]": {
-            "commonFieldKey": "captcha"
+            "#": "captcha"
         }
     }
 }

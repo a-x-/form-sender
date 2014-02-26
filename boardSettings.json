@@ -22,7 +22,12 @@
         "postData": {
         },
         "dynamicPostDataMapping": {
-            "captchaValue":"check_code"
+            "captchaValue":"check_code",
+            "currentDate":{
+                "(\d+).*?\d+.*?\d+":"lease_start_day",
+                "\d+.*?(\d+).*?\d+":"lease_start_month",
+                "\d+.*?\d+.*?(\d+)":"lease_start_year"
+            }
         },
         "captchaGroup": {
             "ext": "gif",
