@@ -104,7 +104,8 @@ function getSpecificComplexFieldValue($valueMaps, $valueMapsAdd, $room, $mask)
  */
 function getSpecVal($valueMapsAdd, $room, $comKey, $domainMap)
 {
-    $domainMapAdd = ($valueMapsAdd && isset($valueMapsAdd[$comKey])) ? $valueMapsAdd[$comKey] : null;
+//    $domainMapAdd = ($valueMapsAdd && isset($valueMapsAdd[$comKey])) ? $valueMapsAdd[$comKey] : null;
+    $domainMapAdd = $valueMapsAdd;
     // Rem: $domainMap = {{"Значение общего поля": "Значение поля доски"},,,}
 
     //
