@@ -40,7 +40,11 @@
         "kids":{"tenants.children":{}},
         "pets":{"tenants.pets":{}},
         "lease_term":{"leaseTerm":{}},
-        "specKey":{"comKey":{}}
+        "specKey":{"comKey":{}},
+        "_STASH": {
+            "[stashedSpecificFieldKey1]": {},
+            "[stashedSpecificFieldKeyN]": {}
+        }
 
     },
 

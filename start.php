@@ -20,12 +20,14 @@ $captchaPath = $tmpDownloadResult['captchaPath'];
 $additionMappingAsSpecifiedKey = $tmpDownloadResult['additionMappingAsSpecifiedKey'];
 
 //$captchaValue = antigateRecognize($captchaPath);
-$captchaValue = 'TMP CAPTCHA VALUE';
+$captchaValue = 'TMP CAPTCHA VALUE'; // todo turn back captcha
 //echo "<br>Captcha:$captchaValue img:<img src='$captchaPath'>";
 $postData = translateFieldSet(
     $roomPresetName,
     $boardMappingName,
     $additionMappingAsSpecifiedKey
 );
+
+// todo turn back send form
 $settings['postData'] = compilePostData($settings, $postData, ['captchaValue'=>$captchaValue]);
-sendForm($settings);
+//sendForm($settings);

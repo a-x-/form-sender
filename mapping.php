@@ -19,8 +19,16 @@ function translateFieldSet($roomName, $boardMappingName, $specificFieldsMapsAdd)
     $rooms = json_decode_file("roomPresets.json");
     $room = $rooms[$roomName];
     $comRoom = $rooms['common'];
-
+    $room = array_merge_recursive($room,$comRoom);
+    unset($comRoom);
     $specificFieldsMaps = json_decode_file("boardMapping.json")[$boardMappingName];
+    if ($specificFieldsMaps['_STASH']) {
+        $stashes = $specificFieldsMaps['_STASH'];
+        unset($specificFieldsMaps['_STASH']);
+    } else {
+        $stashes = [];
+    }
+    var_dump($stashes);
     foreach ($specificFieldsMaps as $specificFieldKey => $valueMaps) {
         // Iterate over addition map too
         $valueMapsAdd = (isset($specificFieldsMapsAdd[$specificFieldKey])) ? $specificFieldsMapsAdd[$specificFieldKey] : null;
@@ -29,15 +37,15 @@ function translateFieldSet($roomName, $boardMappingName, $specificFieldsMapsAdd)
             $partMask = $valueMaps['@'];
             unset($valueMaps['@']);
             $specVal = '';
-            foreach ($valueMaps as $comKey => $domainMap) {// будет выполнена 1 раз, т.к. указывается только 1 comKey
-                $specVal = getSpecVal ($valueMapsAdd, $comRoom, $room, $comKey, $domainMap);
+            foreach ($valueMaps as $comKey => $domainMap) { // будет выполнена 1 раз, т.к. указывается только 1 comKey
+                $specVal = getSpecVal($valueMapsAdd, $room, $comKey, $domainMap);
                 break;
             }
-            preg_match('!'.$partMask.'!', $specVal, $parts);
+            preg_match('!' . $partMask . '!', $specVal, $parts);
             $specValResult = $parts[1];
         } else {
             $complexMask = getMaskFromMapJsonDescription($valueMaps); // Get complexMask from JSON file description of map
-            $specValResult = getSpecificComplexFieldValue($valueMaps, $valueMapsAdd, $room, $comRoom, $complexMask);
+            $specValResult = getSpecificComplexFieldValue($valueMaps, $valueMapsAdd, $room, $complexMask);
         }
 
         //
@@ -69,14 +77,14 @@ function getMaskFromMapJsonDescription(&$valueMaps)
     return $mask;
 }
 
-function getSpecificComplexFieldValue($valueMaps, $valueMapsAdd, $room, $comRoom, $mask)
+function getSpecificComplexFieldValue($valueMaps, $valueMapsAdd, $room, $mask)
 {
     //
     // Iterate over common fields mapped to current specific field
     // Rem: map may have one common field
     $specValComplex = $mask; // sought-for (искомое) value
     foreach ($valueMaps as $comKey => $domainMap) {
-        $specVal = getSpecVal ($valueMapsAdd, $comRoom, $room, $comKey, $domainMap);
+        $specVal = getSpecVal($valueMapsAdd, $room, $comKey, $domainMap);
         //
         // Add found specific value into mask
         $specValComplex = specializeMask($specValComplex, $comKey, $specVal);
@@ -88,20 +96,21 @@ function getSpecificComplexFieldValue($valueMaps, $valueMapsAdd, $room, $comRoom
 /**
  * Get specific field value
  * @param $valueMapsAdd
- * @param $comRoom
  * @param $room
  * @param $comKey
  * @param $domainMap
+ * @internal param $comRoom
  * @return bool|mixed
  */
-function getSpecVal ($valueMapsAdd, $comRoom, $room, $comKey, $domainMap){
+function getSpecVal($valueMapsAdd, $room, $comKey, $domainMap)
+{
     $domainMapAdd = ($valueMapsAdd && isset($valueMapsAdd[$comKey])) ? $valueMapsAdd[$comKey] : null;
     // Rem: $domainMap = {{"Значение общего поля": "Значение поля доски"},,,}
 
     //
     // Find common value for current room
     if ($currComValue = evalDeepArrayPath($comKey, $room)) {
-    } elseif ($currComValue = evalDeepArrayPath($comKey, $comRoom)) {
+//    } elseif ($currComValue = evalDeepArrayPath($comKey, $comRoom)) {
     } else {
         // todo write error handler ( common key not found )
     }
