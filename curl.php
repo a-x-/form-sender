@@ -166,14 +166,14 @@ function downloadFormAndCaptcha($settings)
     $additionMappingAsSpecifiedKey = [];
 
     foreach($selects as $select) {
-        $specifiedFieldKey = $select->attributes->getNamedItem('name')->value;
-        echo $specifiedFieldKey;
-        $additionMappingAsSpecifiedKey[$specifiedFieldKey] = [];
+        $specificFieldKey = $select->attributes->getNamedItem('name')->value;
+        echo $specificFieldKey;
+        $additionMappingAsSpecifiedKey[$specificFieldKey] = [];
         foreach($select->childNodes as $child) {
-            $specifiedFieldValue = $child->attributes->getNamedItem('value')->value;
+            $specificFieldValue = $child->attributes->getNamedItem('value')->value;
             $commonFieldValue = $child->textContent;
-            echo "$specifiedFieldValue; $commonFieldValue; <br >";
-            $additionMappingAsSpecifiedKey[$specifiedFieldKey][$commonFieldValue] = $specifiedFieldValue;
+            echo "$specificFieldValue; $commonFieldValue; <br >";
+            $additionMappingAsSpecifiedKey[$specificFieldKey][$commonFieldValue] = $specificFieldValue;
         }
     }
 

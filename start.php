@@ -25,7 +25,6 @@ $captchaValue = 'TMP CAPTCHA VALUE';
 $postData = translateFieldSet(
     $roomPresetName,
     $boardMappingName,
-    $additionSettings = [],
     $additionMappingAsSpecifiedKey
 );
 $setting['postData'] = compilePostData($settings, $postData, ['captchaValue'=>$captchaValue]);
