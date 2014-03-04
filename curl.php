@@ -10,53 +10,6 @@ require_once('../lib/phpQuery/phpQuery.php');
 
 // [[ http://forum.php.su/topic.php?forum=73&topic=1553 ]]
 // [[ http://forum.php.su/topic.php?forum=83&topic=1899# ]]
-$postData = [
-    "MAX_FILE_SIZE" => "300000",
-    "type" => "1",
-    "size" => "1",
-    "town_id" => "1",
-    "station_id" => "128",
-    "street" => "",
-    "house" => "",
-    "time_to_station" => "",
-    "time_to_station_type" => "-1",
-    "floor" => "",
-    "floorn" => "",
-    "sroom" => "",
-    "sall" => "",
-    "skitchen" => "",
-    "mebel" => "-1",
-    "phone" => "-1",
-    "tv" => "-1",
-    "inet" => "-1",
-    "wm" => "-1",
-    "rfgr" => "-1",
-    "balkon" => "-1",
-    "gender" => "-1",
-    "kids" => "-1",
-    "pets" => "-1",
-    "lease_term" => "0",
-    "lease_start_day" => "18",
-    "lease_start_month" => "02",
-    "lease_start_year" => "2014",
-    "rent" => "",
-    "rent_type" => "0",
-    "prepay" => "0",
-    "name" => "",
-    "phone_code_1" => "",
-    "phone_number_1" => "",
-    "call_time_from_1" => "9",
-    "call_time_to_1" => "19",
-    "phone_code_2" => "",
-    "phone_number_2" => "",
-    "call_time_from_2" => "9",
-    "call_time_to_2" => "19",
-    "email" => "",
-    "work_with_agents" => "1",
-    "additional_info" => "",
-    "check_code" => "",
-    "submit_new_post" => "Подать объявление!",
-];
 
 require_once('lib.php');
 
@@ -73,25 +26,38 @@ function compileCascadeSettings()
 /**
  * @param $settings
  * @param $postData
+ * @param $boardMappingName
  * @param $boardDynamicData ['commonKey'=>'specifiedValue']
  * @return array
  */
-function compilePostData($settings, $postData, $boardDynamicData)
+function compilePostData($settings, $postData, $boardMappingName, $boardDynamicData)
 {
     $postData = array_merge($postData, $settings['postData']);
     $postData = array_merge($postData, $_GET);
-    $boardSettings = json_decode_file('boardSettings.json');
+    $boardSettings = json_decode_file('boardSettings.json')[$boardMappingName];
 
-    foreach ($boardDynamicData as $commonKey => $specValue) {
-        $specKey_specKeys = $boardSettings['dynamicPostDataMapping'][$commonKey];
-        if (!is_array($specKey_specKeys))
-            $postData[$specKey_specKeys] = $specValue;
-        else foreach ($specKey_specKeys as $pattern => $specKey) {
-            preg_match('!'.$pattern.'!',$specValue,$parts);
-            $specValPart = $parts[1];
-            $postData[$specKey] = $specValPart;
-        }
-    }
+    //
+    // Add dynamic post data
+   if(!isset($boardSettings['dynamicPostDataMapping'])) {
+       $dynamicPostDataMap = $boardSettings['dynamicPostDataMapping'];
+       foreach ($boardDynamicData as $commonKey => $specValue) {
+           if(!isset($dynamicPostDataMap) || !isset($dynamicPostDataMap[$commonKey]))
+               continue;
+           $specKey_specKeys = $dynamicPostDataMap[$commonKey];
+           if (!is_array($specKey_specKeys))
+               $postData[$specKey_specKeys] = $specValue;
+           else foreach ($specKey_specKeys as $pattern => $specKey) {
+               preg_match('!'.$pattern.'!',$specValue,$parts);
+               $specValPart = $parts[1];
+               $postData[$specKey] = $specValPart;
+           }
+       }
+   }
+
+    //
+    // Add static "postData"
+    $staticPostData = $boardSettings["postData"];
+    $postData = array_merge($postData, $staticPostData);
 
     return $postData;
 }
@@ -124,6 +90,7 @@ function downloadFormAndCaptcha($settings)
         echo $specificFieldKey;
         $additionMappingAsSpecifiedKey[$specificFieldKey] = [];
         foreach ($select->childNodes as $child) {
+            if ($child->nodeName != 'option') continue;
             $specificFieldValue = $child->attributes->getNamedItem('value')->value;
             $commonFieldValue = mb_uppercaseFirstLetter($child->textContent);
             echo "$specificFieldValue; $commonFieldValue; <br >";
@@ -132,8 +99,18 @@ function downloadFormAndCaptcha($settings)
     }
 
     //
+    // Забрать ссылку на капчу
+    if ($settings['captcha']['uri'])
+        $captchaLink = $settings['captcha']['uri'];
+    else {
+        $captchaLinkObj = $domObj[$settings['captcha']['query']]->elements[0];
+        $captchaLink = $captchaLinkObj->attributes->getNamedItem('src')->value;
+    }
+
+
+    //
     // download captcha
-    curl_setopt($ch, CURLOPT_URL, $settings['captcha']['uri']);
+    curl_setopt($ch, CURLOPT_URL, $captchaLink);
     curl_setopt($ch, CURLOPT_USERAGENT, $settings['useragent']);
     curl_setopt($ch, CURLOPT_HTTPHEADER, array('Accept-Charset: windows-1251,utf-8,q=0.7,*;q=0.7'));
     curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, FALSE);
@@ -143,8 +120,14 @@ function downloadFormAndCaptcha($settings)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 //    curl_setopt($ch, CURLOPT_HEADER, 1);
     $captchaResult = curl_exec($ch);
-    $fp = fopen($captchaPath = '../captcha.' . $settings['captcha']['ext'], "wb");
-    fwrite($fp, $captchaResult);
+
+    //
+    // Определить тип файла капчи
+
+    $captchaExt = ($settings['captcha']['ext']) ? $settings['captcha']['ext'] : preg_replace('!^.*?/!','',getimagesize($captchaLink)['mime']);
+
+    $fp = fopen($captchaPath = 'captcha.' . $captchaExt, "wb"); // Открыть поток для записи капчи
+    fwrite($fp, $captchaResult); // Записать капчу
     fclose($fp);
 //    $replace = str_replace("sign.aspx", "testes.php", $result);
     echo iconv($settings['siteEncoding'], "utf-8", $result); //

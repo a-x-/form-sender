@@ -5,12 +5,22 @@
  */
 
 /**
+ * Translate room data format to board data format.
+ * ************************************************
+ * * RoomPresets.json format:                     *
+ * * -------------------------------------------- *
+ * *   "na"  -- none set;                         *
+ * *   true  -- YES exclusive;                    *
+ * *   false -- NO exclusive;                     *
+ * *   -1    -- none important                    *
+ * ************************************************
  * @param $roomName
  * @param $boardMappingName
  * @param $specificFieldsMapsAdd [ 'specifiedFieldKey' => [ 'commonFieldValue' => 'specifiedFieldValue', ... ], ... ]
+ * @param $settings
  * @return array
  */
-function translateFieldSet($roomName, $boardMappingName, $specificFieldsMapsAdd)
+function translateFieldSet($roomName, $boardMappingName, $specificFieldsMapsAdd, $settings)
 {
     // $specificFieldsMaps = [    'specificFieldKey'=>[  'comKey'=>['commonValue'=>'specificValue']  ]    ]
     $outputFields = [];
@@ -50,7 +60,7 @@ function translateFieldSet($roomName, $boardMappingName, $specificFieldsMapsAdd)
 
         //
         // Add found specific complex value into output fields collection
-        $outputFields[$specificFieldKey] = $specValResult;
+        $outputFields[$specificFieldKey] = iconv("utf-8",$settings['siteEncoding'],$specValResult);
     }
 
     return $outputFields;

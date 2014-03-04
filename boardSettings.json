@@ -17,8 +17,8 @@
 
     "to-rent.ru": {
         "formUri": "http://to-rent.ru/new_post.php",
-        "siteEncoding": "windows-1251",
         "formAction": "http://to-rent.ru/new_post.php",
+        "siteEncoding": "windows-1251",
         "postData": {
         },
         "dynamicPostDataMapping": {
@@ -36,6 +36,26 @@
             "isNumeric": false,
             "isPhrase": false,
             "isRussian": false
+        }
+    },
+    "egskn.ru": {
+        "siteEncoding": "windows-1251",
+        "formUri": "http://www.egsnk.ru/request/",
+        "formAction": "http://www.egsnk.ru/request/index1.php",
+        "dynamicPostDataMapping": {
+            "captchaValue":"ckod"
+        },
+        "captcha": {
+            "ext": "",
+            "uri": "",
+            "query": "#captcha_pos",
+            "isSense": false,
+            "isNumeric": true,
+            "isPhrase": false,
+            "isRussian": false
+        },
+        "postData": {
+            "action": "send"
         }
     }
 }

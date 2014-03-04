@@ -1,65 +1,56 @@
 {
-    "defaultRoomName": {
+    "Kuncevskaya": {
         "apartment": {
-            "floor": 0,
-            "livingSpace": 0,
-            "kitchenSpace": 0
+            "livingSpace": "85",
+            "kitchenSpace": "6",
+            "floor": 2
+        },
+        "contact": {
+            "phone":"+79685870700"
         },
         "loc": {
-            "metro": "",
-            "street": "",
-            "house": 0,
-            "building": 0,
-            "timeForMetro": 0,
-            "toMetroVia": 0
+            "metro": "Кунцевская",
+            "street": "Кутузовский проспект",
+            "house": 69,
+            "building": 4
         },
         "building": {
-            "floorsSummary": 0,
-            "buildingYear": 0,
-            "series": "",
-            "wallsMaterial": "",
-            "waterSource": "",
-            "heatingSystem": "",
-            "ceilingHeight": "",
-            "gas": true,
-            "lift": true,
-            "GarbageChute": "",
-            "security": ""
+            "floorsSummary": 4
         }
     },
+
+
     "Krulatskaya": {
         "apartment": {
-            "livingSpace": "na",
-            "kitchenSpace": "na",
+            "livingSpace": "85",
+            "kitchenSpace": "6",
             "floor": 11
         },
         "loc": {
             "metro": "Крылатское",
             "street": "Рублевская шоссе",
             "house": 38,
-            "building": 2,
-            "timeForMetro": 7,
-            "toMetroVia": "Пешком"
+            "building": 2
         },
         "building": {
-            "floorsSummary": 17,
-            "buildingYear": "na",
-            "series": "na",
-            "wallsMaterial": "na",
-            "waterSource": "na",
-            "heatingSystem": "na",
-            "ceilingHeight": "na",
-            "gas": true,
-            "lift": true,
-            "GarbageChute": true,
-            "security": true
+            "floorsSummary": 17
+        },
+        "contact": {
+            "phone":"+79685870700"
         }
     },
+
+
     "common": {
         "contact": {
             "skype": "na",
             "icq": "na",
-            "siteUri": "http://www.vseh-zaselim.ru/"
+            "email": "nikolaygorbun@yandex.ru",
+            "siteUri": "http://www.vseh-zaselim.ru/",
+            "name": "Яна",
+            "lastName": "Заселяева",
+            "callFromTime": 9,
+            "callToTime": 22
         },
         "apartment": {
             "tv": false,
@@ -75,10 +66,32 @@
             "children": false,
             "pets": false
         },
+        "building": {
+            "buildingYear": "na",
+            "series": "na",
+            "wallsMaterial": "na",
+            "waterSource": "na",
+            "heatingSystem": "na",
+            "ceilingHeight": "na",
+            "gas": true,
+            "lift": true,
+            "GarbageChute": true,
+            "security": true
+        },
         "actionType": "Предложение аренды",
-        "leasesTerm":"1 месяц",
+        "leaseTerm":"Месяц",
+        "agentsInteraction": true,
+        "message":"Сдам уютное КОЙКО-МЕСТО в мини-хостеле квартирного типа с добрыми и милыми соседями, комнаты на 4 -- 8 человек славянской внешности!  Широкие двухъярусные кровати с лестницами и перегородками. Балкон, лоджия. Есть бытовая техника (стиральная машина, утюг, гладильная доска, сушилка для вещей, СВЧ-печь, холодильник), на кухне: плита, чайник, посуда, шкафчики. Хороший свежий ремонт, с/у раздельный. Бесплатный безлимитный интернет! Пешая доступность от метро. Сухой закон. Возможно посуточное размещение: 500р/день, 3000р/нед. Вас ждет тепло домашнего очага, комфортное проживание и спокойная обстановка после тяжелого трудового дня. Звоните!",
         "loc": {
-            "city": "Москва"
+            "city": "Москва",
+            "timeForMetro": 7,
+            "toMetroVia": "Пешком"
+        },
+        "rent":{
+            "price": 8000,
+            "type": "Помесячно",
+            "prepay": "Месяц",
+            "subject": "Койко-место"
         }
     }
 }
