@@ -18,15 +18,22 @@ $tmpDownloadResult = downloadFormAndCaptcha($settings);
 $captchaPath = $tmpDownloadResult['captchaPath'];
 $additionMappingAsSpecifiedKey = $tmpDownloadResult['additionMappingAsSpecifiedKey'];
 
-//$captchaValue = antigateRecognize($captchaPath);
-$captchaValue = 'TMP CAPTCHA VALUE'; // todo turn back captcha
+$captchaValue = antigateRecognize($captchaPath);
+//$captchaValue = 'TMP CAPTCHA VALUE'; // todo turn back captcha
 //echo "<br>Captcha:$captchaValue img:<img src='$captchaPath'>";
 $postData = translateFieldSet(
     $roomPresetName,
     $boardMappingName,
-    $additionMappingAsSpecifiedKey
+    $additionMappingAsSpecifiedKey,
+    $settings
 );
 
 // todo turn back send form
-$settings['postData'] = compilePostData($settings, $postData, ['captchaValue'=>$captchaValue]);
+$settings['postData'] = compilePostData($settings, $postData, $boardMappingName,
+    [
+        'captchaValue'=>$captchaValue,
+        "currentDate"=>date('d.m.Y')
+    ]
+);
+var_dump($settings);
 //sendForm($settings);

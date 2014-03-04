@@ -6,7 +6,7 @@
  * Created: 17.02.14 / 17:16
  */
 
-require_once('phpQuery/phpQuery.php');
+require_once('../lib/phpQuery/phpQuery.php');
 
 // [[ http://forum.php.su/topic.php?forum=73&topic=1553 ]]
 // [[ http://forum.php.su/topic.php?forum=83&topic=1899# ]]
@@ -143,7 +143,7 @@ function downloadFormAndCaptcha($settings)
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 //    curl_setopt($ch, CURLOPT_HEADER, 1);
     $captchaResult = curl_exec($ch);
-    $fp = fopen($captchaPath = 'captcha.' . $settings['captcha']['ext'], "wb");
+    $fp = fopen($captchaPath = '../captcha.' . $settings['captcha']['ext'], "wb");
     fwrite($fp, $captchaResult);
     fclose($fp);
 //    $replace = str_replace("sign.aspx", "testes.php", $result);
